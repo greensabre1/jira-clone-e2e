@@ -85,11 +85,11 @@ describe('Test for Pickle Rick', () => {
       cy.get('.ql-editor').type('My bug description')
 
       //title
-      cy.get('input[name="title"]').type('Bug');
+      cy.get('input[name="title"]').type('Bug')
       
       //select Pickle Rick from reporter and assignee dropdown
       cy.get('[data-testid="select:userIds"]').click();
-      cy.get('[data-testid="select-option:Pickle Rick"]').click();
+      cy.get('[data-testid="select-option:Pickle Rick"]').click()
       cy.get('[data-testid="select:reporterId"]').click()
       cy.get('[data-testid="select-option:Pickle Rick"]').click()
 
@@ -98,33 +98,35 @@ describe('Test for Pickle Rick', () => {
       cy.get('[data-testid="select-option:Highest"]').click()
 
       //open issue type dropdown and choose bug - choosing issue type as a last step, because otherwise it resets for some reason
-      cy.get('[data-testid="select:type"]').click();
+      cy.get('[data-testid="select:type"]').click()
       cy.get('[data-testid="select-option:Bug"]')
-          .trigger('click');
+          .trigger('click')
 
       //click on button "Create issue"
-      cy.get('button[type="submit"]').click();
+      cy.get('button[type="submit"]').click()
     });
 
     //modal window is closed, success msg
-    cy.get('[data-testid="modal:issue-create"]').should('not.exist');
-    cy.contains('Issue has been successfully created.').should('be.visible');
+    cy.get('[data-testid="modal:issue-create"]').should('not.exist')
+    cy.contains('Issue has been successfully created.').should('be.visible')
     
     //reload and assert that success msg is not there
-    cy.reload();
-    cy.contains('Issue has been successfully created.').should('not.exist');
+    cy.reload()
+    cy.contains('Issue has been successfully created.').should('not.exist')
 
     //only 1 backlog should be on the page and we select data inside of this block on the page
-    cy.get('[data-testid="board-list:backlog').should('be.visible').and('have.length', '1').within(() => {
+    cy.get('[data-testid="board-list:backlog"]')
+    .should('be.visible').and('have.length', '1').within(() => {
       //since this webpage doesn't save the issues reported after revisiting we always assume that there are only 5 issues, we just reported one
       cy.get('[data-testid="list-issue"]')
           .should('have.length', '5')
           .first()
           .find('p')
-          .contains('Bug');
-      //correct avatar and type icon are visible
-      cy.get('[data-testid="avatar:Pickle Rick"]').should('be.visible');
-      cy.get('[data-testid="icon:bug"]').should('be.visible');
+          .contains('Bug')
+      //correct avatar, issue type and priority icons are visible
+      cy.get('[data-testid="avatar:Pickle Rick"]').should('be.visible')
+      cy.get('[data-testid="icon:bug"]').should('be.visible')
+      cy.get('[data-testid="icon:arrow-up"]').should('be.visible')
     });
   });
  });
@@ -132,6 +134,10 @@ describe('Test for Pickle Rick', () => {
 
 
  //test 2
+//adding variables for title and description with faker libary values 
+var title = faker.lorem.word()
+var description = faker.lorem.sentence(3)
+
  describe('Baby Yoda can report a task with random input', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -139,18 +145,18 @@ describe('Test for Pickle Rick', () => {
     cy.visit(url + '/board?modal-issue-create=true');
     });
   });
-  it.only('Should create an issue and validate it successfully', () => {
+  it('Should create an issue and validate it successfully', () => {
     cy.get('[data-testid="modal:issue-create"]').within(() => {     
       //since Task is a default issue type we dont have to select it
-      //description
-      cy.get('.ql-editor').type(faker.lorem.sentence(3));
+      //description from faker
+      cy.get('.ql-editor').type(description)
 
-      //title
-      cy.get('input[name="title"]').type(faker.lorem.word());
+      //title from faker
+      cy.get('input[name="title"]').type(title)
 
       //select Baby Yoda from reporter and assignee dropdown
-      cy.get('[data-testid="select:userIds"]').click();
-      cy.get('[data-testid="select-option:Baby Yoda"]').click();
+      cy.get('[data-testid="select:userIds"]').click()
+      cy.get('[data-testid="select-option:Baby Yoda"]').click()
       cy.get('[data-testid="select:reporterId"]').click()
       cy.get('[data-testid="select-option:Baby Yoda"]').click()
 
@@ -159,29 +165,29 @@ describe('Test for Pickle Rick', () => {
       cy.get('[data-testid="select-option:Low"]').click()
 
       //click on button "Create issue"
-      cy.get('button[type="submit"]').click();
+      cy.get('button[type="submit"]').click()
     });
 
     //modal window is closed, success msg
-    cy.get('[data-testid="modal:issue-create"]').should('not.exist');
-    cy.contains('Issue has been successfully created.').should('be.visible');
+    cy.get('[data-testid="modal:issue-create"]').should('not.exist')
+    cy.contains('Issue has been successfully created.').should('be.visible')
     
     //reload and assert that success msg is not there
     cy.reload();
-    cy.contains('Issue has been successfully created.').should('not.exist');
+    cy.contains('Issue has been successfully created.').should('not.exist')
 
     //only 1 backlog should be on the page and we select data inside of this block on the page
-    cy.get('[data-testid="board-list:backlog').should('be.visible').and('have.length', '1').within(() => {
-      //since this webpage doesn't save the issues reported after revisiting we always assume that there are only 5 issues, we just reported one
-      //we cannot predict what text will be generatel randomly, some we just assert that title is not empty
+    cy.get('[data-testid="board-list:backlog"]').should('be.visible').and('have.length', '1').within(() => {
+      //we assert that randomly generated title contains title variable 
       cy.get('[data-testid="list-issue"]')
           .should('have.length', '5')
           .first()
           .find('p')
-          .should('not.be.null')
-      //correct avatar and type icon are visible
-      cy.get('[data-testid="avatar:Baby Yoda"]').should('be.visible');
-      cy.get('[data-testid="icon:task"]').should('be.visible');
+          .contains(title)
+      //correct avatar, type and priority icons are visible
+      cy.get('[data-testid="avatar:Baby Yoda"]').should('be.visible')
+      cy.get('[data-testid="icon:task"]').should('be.visible')
+      cy.get('[data-testid="icon:arrow-down"]').should('be.visible')
     });
   });
  });
