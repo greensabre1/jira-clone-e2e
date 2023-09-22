@@ -41,7 +41,6 @@ var Rdescription = faker.lorem.sentence(3)
   const issueDetailsYoda = {
     title: Rtitle,
     description: Rdescription,
-    type: "Task",
     reporter: "Baby Yoda",
     assignee: "Baby Yoda",
     priority: "Low",

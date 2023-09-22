@@ -37,7 +37,7 @@ class IssueModal {
     }
 
     getIssueDetailModal() {
-        return cy.get(this.issueDetailModal);
+        return cy.get(this.issueDetailModal).should('be.visible')
     }
 
     selectIssueType(issueType) {
@@ -125,6 +125,11 @@ class IssueModal {
         cy.get(this.issueDetailModal).should('not.exist');
         cy.reload();
         cy.contains(issueTitle).should('not.exist');
+    }
+    validateAmountOfIssuesInBacklog(amountOfIssues) {
+        cy.get('[data-testid="board-list:backlog"]').within(() => {
+            cy.get('[data-testid="list-issue"]').should('have.length', amountOfIssues);
+        });
     }
 
     validateIssueVisibilityState(issueTitle, isVisible = true) {
