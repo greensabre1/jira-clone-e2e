@@ -111,40 +111,47 @@ const issueDetailsRick = {
 const EXPECTED_AMOUNT_OF_ISSUES_CREATE = '5'
 
 function logTime() {
-    cy.wait(5000)
     cy.get('[data-testid="list-issue"]')
     .eq(0)
     .click()
-    cy.wait(5000)
+    cy.wait(1234)
+    cy.get('div')
+    cy.get('[placeholder="Number"]')
+    .eq(0)
+    .scrollIntoView()
+    .trigger('mouseover')
+    .click()
+    .wait(1234)
+    .type('7', '{enter}')
     cy.get('div')
     .contains('logged')
     .click()
-    .wait(4000)
     cy.get('[placeholder="Number"]')
     .eq(1)
     .scrollIntoView()
     .trigger('mouseover')
     .click()
-    .wait(4000)
+    .wait(1234)
     .type('2', '{enter}')
-    cy.wait(4000)
+    cy.wait(1234)
     cy.get('[placeholder="Number"]')
     .eq(2)
     .scrollIntoView()
     .trigger('mouseover')
     .click()
-    .wait(4000)
+    .wait(1234)
     .type('5', '{enter}')
-    .wait(4000)
+    .wait(1234)
     cy.get('div')
     .contains('Time tracking')
     .trigger('mouseover')
     .click()
-    cy.wait(4000)
+    .wait(1234)
+    .click()
     cy.get('button')
     .contains('Done')
     .click()
-    cy.wait(4000)
+    cy.wait(1234)
     cy.get('div')
     .contains('2h logged')
     .should('be.visible')
@@ -173,14 +180,15 @@ describe('All test cases scenarios', () => {
         //Create an issue and log spent time (for some reason cypress automation does not trigger logged time to change, I tried many ways, its way too buggy)
         //If this issue didn't exist the code would work flawlessly, but at the meantime I have no idea why it doesn't work. 
         cy.visit('https://jira.ivorreic.com/project/board');
-    /*  cy.visit('https://jira.ivorreic.com/project/board?modal-issue-create=true');
+        cy.visit('https://jira.ivorreic.com/project/board?modal-issue-create=true');
         IssueModal.createIssue(issueDetailsRick)
         IssueModal.ensureIssueIsCreated(EXPECTED_AMOUNT_OF_ISSUES_CREATE, issueDetailsRick)
         cy.wait(1000)
-        logTime()    */
+        
+        logTime()    
 
-        //For the reasons I've mentioned above there is no point in creating a new issue, so I will demontrate how to clear logged time on existing issue
-        //cy.reload()
+        //For the reasons I've mentioned above there is no point in creating a new issue, so I will demontrate how to clear logged time using this function
+        cy.reload()
         ResetTime()
     });
 })
